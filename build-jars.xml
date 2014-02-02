@@ -1,0 +1,28 @@
+<?eclipse.ant.import?>
+<project basedir="." default="build-all-jars" name="build-jars">
+  <property name="file.jar" value="jta-plugins.jar"/>
+  <property name="bin.base" value="./build/bin"/>
+  <property name="jar.output" value="./dist"/>
+
+  <target name="clean-jars">
+    <delete dir="${jar.output}"/>
+  </target>
+
+  <target name="init-jars">
+    <mkdir dir="${jar.output}"/>
+  </target>
+
+  <target depends="create-jtaplugins-jar" name="build-all-jars"/>
+
+  <target description="Create a jar file for the Performance Monitoring Application" depends="clean-jars,init-jars" name="create-jtaplugins-jar">
+    <jar destfile="${jar.output}/${file.jar}">
+      <fileset dir="${bin.base}" includes="*/**" />
+	  <fileset dir="." includes="res/**" />
+      <manifest>
+        <attribute name="Built-By" value="Alcatel-Lucent Spa"/>
+        <attribute name="Implementation-Vendor" value="Alcatel-Lucent Spa"/>
+        <attribute name="Implementation-Version" value="2.0"/>
+      </manifest>
+    </jar>
+  </target>
+</project>

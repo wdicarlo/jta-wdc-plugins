@@ -1,0 +1,34 @@
+apply plugin: 'java'
+
+defaultTasks 'assemble'
+
+version = 0.1
+
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+
+sourceSets.main.classesDir = new File('build/bin')
+sourceSets.main.java.srcDir 'src'
+sourceSets.main.resources.srcDir 'src'
+sourceSets.test.resources.srcDir 'test/src'
+
+buildDirName = 'build'
+libsDirName = 'dist'
+
+compileJava.getOptions().fork(memoryMaximumSize: '512m')
+
+
+repositories {
+  add( new org.apache.ivy.plugins.resolver.FileSystemResolver()) {
+    name = 'lib'
+      addArtifactPattern "$projectDir/lib/[module](-[revision])(-[classifier]).[ext]"
+      addArtifactPattern "$projectDir/lib/[module].[ext]"
+      descriptor = 'optional'
+      checkmodified = true
+  }
+
+}
+
+dependencies {
+  compile files( [ 'lib/commons-net-2.0.jar', 'lib/jta26.jar', 'ganymed-ssh2-build250.jar' ] )
+}
